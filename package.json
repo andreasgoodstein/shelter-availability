@@ -1,0 +1,43 @@
+{
+  "name": "shelter-availability",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "next build && next export",
+    "format": "prettier --check ./src",
+    "format:fix": "prettier --write ./src",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src",
+    "serve": "next start",
+    "start": "next dev",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
+  },
+  "author": "Andreas Goodstein",
+  "license": "GPL",
+  "dependencies": {
+    "date-fns": "2.29.3",
+    "leaflet": "1.8.0",
+    "preact": "10.11.0"
+  },
+  "devDependencies": {
+    "@types/leaflet": "1.8.0",
+    "@types/node": "18.7.18",
+    "@types/react": "18.0.20",
+    "@typescript-eslint/eslint-plugin": "5.37.0",
+    "@typescript-eslint/parser": "5.37.0",
+    "eslint": "8.23.1",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-import-resolver-typescript": "3.5.1",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jsx-a11y": "6.6.1",
+    "eslint-plugin-react": "7.31.8",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-simple-import-sort": "8.0.0",
+    "eslint-plugin-sonar": "0.9.1",
+    "husky": "8.0.1",
+    "lint-staged": "13.0.3",
+    "next": "12.3.0",
+    "prettier": "2.7.1",
+    "typescript": "4.8.3"
+  }
+}
