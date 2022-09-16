@@ -2,6 +2,8 @@
 
 A quick little React / NextJS project, to provide a better overview of the availability of bookable campsites and shelters in Denmark.
 
+It piggybacks on the API used at [Naturstyrelsen](https://book.naturstyrelsen.dk)
+
 ## Running
 
 Run either via **npm** or **docker compose**
