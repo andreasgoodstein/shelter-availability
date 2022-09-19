@@ -1,6 +1,13 @@
 import "leaflet/dist/leaflet.css";
 
-import { Icon, LayerGroup, Map, Marker, TileLayer } from "leaflet";
+import {
+  Icon,
+  Layer,
+  LayerGroup,
+  Map as LeafletMap,
+  Marker,
+  TileLayer,
+} from "leaflet";
 import { useEffect, useRef, useState } from "react";
 
 import { Place } from "../../index.d";
@@ -8,6 +15,17 @@ import { Place } from "../../index.d";
 type PlaceMapProps = {
   date?: string;
   places?: Place[];
+};
+
+type IconLayer = Layer & {
+  _latlng: {
+    lat: string;
+    lng: string;
+  };
+  _icon: {
+    currentSrc: string;
+  };
+  status: number;
 };
 
 const INITIAL_POSITION: [number, number] = [55.7, 12.3];
@@ -38,7 +56,7 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
       return;
     }
 
-    const leafletMap = new Map(leafRef.current, {
+    const leafletMap = new LeafletMap(leafRef.current, {
       center: INITIAL_POSITION,
       zoom: 11,
     });
@@ -65,11 +83,31 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
       return;
     }
 
-    markerLayer.eachLayer((layer) => {
-      markerLayer.removeLayer(layer);
-    });
+    const layerMap: Record<string, IconLayer> = markerLayer
+      .getLayers()
+      .reduce((map, layer) => {
+        const iconLayer = layer as unknown as IconLayer;
+        const latLng = `${iconLayer._latlng?.lat}|${iconLayer._latlng?.lng}`;
+
+        return {
+          ...map,
+          [latLng]: {
+            ...iconLayer,
+            status: iconLayer._icon?.currentSrc?.includes("green") ? 0 : 1,
+          },
+        };
+      }, {});
 
     places?.forEach((place) => {
+      const oldLayer = layerMap[`${place.Lat || ""}|${place.Lng || ""}`];
+      if (oldLayer && oldLayer.status === place.Status) {
+        return;
+      }
+
+      if (oldLayer) {
+        markerLayer.removeLayer(oldLayer);
+      }
+
       const latLng: [number, number] = [
         parseFloat(place.Lat || ""),
         parseFloat(place.Lng || ""),
