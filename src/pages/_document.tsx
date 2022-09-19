@@ -12,9 +12,12 @@ export default function Document() {
         <style>
           {`
             * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; }
+            *::-webkit-scrollbar { width: 3px; }
+            *::-webkit-scrollbar-track { background: transparent; }
+            *::-webkit-scrollbar-thumb { background-clip: padding-box; background-color: rgba(155, 155, 155, 0.5); border: 5px solid rgba(0, 0, 0, 0); border-radius: 10px; }
             body { font-size: 1.6rem; min-height: 100vh; width: 100%; }
             html { font-family: Courier, mono-space; font-size: 62.5%; }
-          `.replaceAll(/\s/g, "")}
+          `.replaceAll(/(\n|\t)/g, "")}
         </style>
       </Head>
 

@@ -108,7 +108,7 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
   return !places ? null : (
     <div
       ref={leafRef}
-      style={{ height: "calc(100vh - 80px)", width: "100%" }}
+      style={{ height: "calc(100vh - 110px)", width: "100%" }}
     ></div>
   );
 };
