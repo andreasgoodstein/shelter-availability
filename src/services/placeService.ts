@@ -2,13 +2,12 @@ import { formatDate } from "../helpers/dateHelper";
 import { Place, PlaceResponse } from "./../../index.d";
 
 const OPTIONS = {
-  // headers: {
-  //   Connection: "keep-alive",
-  // },
+  headers: {
+    Connection: "keep-alive",
+  },
 };
 
-const URL =
-  "https://book.naturstyrelsen.dk/includes/branding_files/naturstyrelsen/includes/inc_ajaxbookingplaces.asp?s2=&s3=&ps=24&t=1";
+const URL = `${globalThis?.location?.origin}/api?s2=&s3=&ps=24&t=1`;
 
 export const getPlaces = async (date: Date): Promise<Place[]> => {
   const response = await fetch(getUrl(date), OPTIONS);

@@ -150,5 +150,3 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
     ></div>
   );
 };
-
-export default PlaceMap;

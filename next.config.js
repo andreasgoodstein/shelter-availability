@@ -2,19 +2,17 @@
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {
-  /* config options here */
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        react: "preact/compat",
-        "react-dom": "preact/compat",
-        "react-dom/test-utils": "preact/test-utils",
-      };
-    }
-
-    return config;
+  eslint: {
+    ignoreDuringBuilds: true,
   },
+
+  rewrites: () => [
+    {
+      destination:
+        "https://book.naturstyrelsen.dk/includes/branding_files/naturstyrelsen/includes/inc_ajaxbookingplaces.asp",
+      source: "/api",
+    },
+  ],
 };
 
 module.exports = nextConfig;

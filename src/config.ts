@@ -1,3 +1,3 @@
 export const config = {
-  LOOK_AHEAD_DAYS: 60,
+  LOOK_AHEAD_DAYS: 1,
 };
