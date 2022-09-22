@@ -1,3 +1,4 @@
 [[redirects]]
   from = "/api"
   to = "https://book.naturstyrelsen.dk/includes/branding_files/naturstyrelsen/includes/inc_ajaxbookingplaces.asp"
+  status = 200
