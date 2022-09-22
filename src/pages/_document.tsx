@@ -9,9 +9,11 @@ export default function Document() {
           content="default-src 'self'"
         /> */}
 
+        <link rel="icon" href="/assets/shelter.svg" />
+
         <style>
           {`
-            * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; }
+            * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scroll-margin-top: 10px }
             *::-webkit-scrollbar { width: 3px; }
             *::-webkit-scrollbar-track { background: transparent; }
             *::-webkit-scrollbar-thumb { background-clip: padding-box; background-color: rgba(155, 155, 155, 0.5); border: 5px solid rgba(0, 0, 0, 0); border-radius: 10px; }

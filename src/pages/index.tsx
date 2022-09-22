@@ -4,12 +4,8 @@ import { Suspense, useEffect, useState } from "react";
 import { Availabilities } from "../../index.d";
 import { DateList } from "../components/DateList";
 import { config } from "../config";
-import { addDays, formatDate } from "../helpers/dateHelper";
+import { addDays, formatDate, parseDate } from "../helpers/dateHelper";
 import { getPlaces } from "../services/placeService";
-
-type IndexProps = {
-  availabilities?: Availabilities;
-};
 
 const DynamicMap = dynamic(
   () =>
@@ -19,28 +15,40 @@ const DynamicMap = dynamic(
   }
 );
 
-export default function Frontpage({ availabilities }: IndexProps) {
-  const [places, setPlaces] = useState<Availabilities[keyof Availabilities]>(
-    []
-  );
+export default function Frontpage() {
+  const [availabilities, setAvailabilities] = useState<Availabilities>({});
 
-  const [selectedDate, setSelectedDate] = useState<string>(
-    formatDate(new Date())
-  );
+  const [selectedDate, setSelectedDate] = useState<Date>();
 
-  const [dateList, _setDateList] = useState(
-    Object.keys(availabilities || { [selectedDate]: {} })
-  );
+  const [dateList, setDateList] = useState<Date[]>([]);
 
-  const selectDate = (date: string) => {
+  const loadMoreAvailabilities = () =>
+    void (async () => {
+      const nextDate = addDays(dateList[dateList.length - 1], 1);
+
+      const newAvailabilities = await getAvailabilities(nextDate);
+
+      setAvailabilities({ ...availabilities, ...newAvailabilities });
+
+      setDateList([
+        ...dateList,
+        ...Object.keys(newAvailabilities).map((date) => parseDate(date)),
+      ]);
+    })().catch((error) => console.error(error));
+
+  const selectDate = (date: Date) => {
     setSelectedDate(date);
-    setPlaces(availabilities?.[date] || []);
   };
 
   useEffect(function getAvailabilityOnFrontpageMount() {
     getAvailabilities()
       .then((data) => {
-        setPlaces(data?.[selectedDate] || []);
+        setAvailabilities({ ...availabilities, ...data });
+        setDateList([
+          ...dateList,
+          ...Object.keys(data).map((date) => parseDate(date)),
+        ]);
+        setSelectedDate(parseDate(Object.keys(data)[0]));
       })
       .catch((error) => {
         console.error(error);
@@ -54,35 +62,35 @@ export default function Frontpage({ availabilities }: IndexProps) {
 
       <DateList
         dateList={dateList}
+        loadMore={loadMoreAvailabilities}
         selectDate={selectDate}
         selectedDate={selectedDate}
       />
 
       <Suspense fallback={null}>
-        <DynamicMap date={selectedDate} places={places} />
+        <DynamicMap
+          date={selectedDate}
+          places={selectedDate ? availabilities[formatDate(selectedDate)] : []}
+        />
       </Suspense>
     </main>
   );
 }
 
-// export const getStaticProps = async () => {
-//   const availabilities = await getAvailabilities();
-
-//   return { props: { availabilities } };
-// };
-
-const getAvailabilities = async (): Promise<Availabilities> => {
+const getAvailabilities = async (fromDate?: Date): Promise<Availabilities> => {
   const { LOOK_AHEAD_DAYS } = config;
 
   const placePromises: Promise<void>[] = [];
   const availabilities: Availabilities = {};
 
+  const date = fromDate || new Date();
+
   for (let i = 0; i < LOOK_AHEAD_DAYS; i += 1) {
-    const date = addDays(new Date(), i);
+    const fetchDate = addDays(date, i);
 
     placePromises.push(
-      getPlaces(date).then((data) => {
-        availabilities[formatDate(date)] = data;
+      getPlaces(fetchDate).then((data) => {
+        availabilities[formatDate(fetchDate)] = data;
       })
     );
   }

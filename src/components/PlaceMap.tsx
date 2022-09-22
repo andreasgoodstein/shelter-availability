@@ -11,9 +11,10 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 import { Place } from "../../index.d";
+import { formatDate } from "../helpers/dateHelper";
 
 type PlaceMapProps = {
-  date?: string;
+  date?: Date;
   places?: Place[];
 };
 
@@ -136,7 +137,7 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
             }</p><a href="https://book.naturstyrelsen.dk/sted/${
               place.Uri || ""
             }/?s2=${
-              date || ""
+              date ? formatDate(date) : ""
             }" target="_blank" rel="noopener noreferrer">Book</a>`;
 
       new Marker(latLng, options).bindPopup(popup).addTo(markerLayer);
