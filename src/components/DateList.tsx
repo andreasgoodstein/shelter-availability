@@ -1,4 +1,9 @@
-import { formatDate, getDayName, isWeekend } from "../helpers/dateHelper";
+import {
+  formatDate,
+  formatDisplayDate,
+  getDayName,
+  isWeekend,
+} from "../helpers/dateHelper";
 
 type DateListProps = {
   dateList?: Date[];
@@ -24,7 +29,13 @@ export const DateList = ({
     >
       {dateList.map((date) => (
         <li style={{ display: "inline-flex" }} key={formatDate(date)}>
-          <div style={{ display: "flex", flexFlow: "column" }}>
+          <div
+            style={{
+              alignItems: "center",
+              display: "flex",
+              flexFlow: "column",
+            }}
+          >
             <span>{getDayName(date)}</span>
 
             <button
@@ -40,7 +51,7 @@ export const DateList = ({
               }}
               type="button"
             >
-              {formatDate(date).substring(4)}
+              {formatDisplayDate(date)}
             </button>
           </div>
         </li>
