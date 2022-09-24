@@ -32,19 +32,19 @@ type IconLayer = Layer & {
 const INITIAL_POSITION: [number, number] = [55.7, 12.5];
 const INITIAL_ZOOM = 10;
 
-const ShelterIconGreen = new Icon({
+const SHELTER_ICON_GREEN = new Icon({
   iconUrl: "/assets/shelter_green.svg",
   iconSize: [30, 30],
 });
-const ShelterIconRed = new Icon({
+const SHELTER_ICON_RED = new Icon({
   iconUrl: "/assets/shelter_red.svg",
   iconSize: [30, 30],
 });
-const FireIconGreen = new Icon({
+const FIRE_ICON_GREEN = new Icon({
   iconUrl: "/assets/campfire_green.svg",
   iconSize: [30, 30],
 });
-const FireIconRed = new Icon({
+const FIRE_ICON_RED = new Icon({
   iconUrl: "/assets/campfire_red.svg",
   iconSize: [30, 30],
 });
@@ -122,11 +122,11 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
         const icon =
           place.FTypeID === 3012
             ? place.Status === 1
-              ? ShelterIconRed
-              : ShelterIconGreen
+              ? SHELTER_ICON_RED
+              : SHELTER_ICON_GREEN
             : place.Status === 1
-            ? FireIconRed
-            : FireIconGreen;
+            ? FIRE_ICON_RED
+            : FIRE_ICON_GREEN;
 
         const options = { icon };
 
