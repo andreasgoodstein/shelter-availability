@@ -1,10 +1,11 @@
 import dynamic from "next/dynamic";
 import { Suspense, useEffect, useState } from "react";
 
-import { Availabilities } from "../../index.d";
+import { Availabilities, DateRange } from "../../index.d";
 import { DateList } from "../components/DateList";
+import { DateRangeSelector } from "../components/DateRangeSelector";
 import { config } from "../config";
-import { addDays, formatDate, parseDate } from "../helpers/dateHelper";
+import { addDays, formatDate } from "../helpers/dateHelper";
 import { getPlaces } from "../services/placeService";
 
 const DynamicMap = dynamic(
@@ -16,54 +17,78 @@ const DynamicMap = dynamic(
 );
 
 export default function Frontpage() {
+  const { LOOK_AHEAD_DAYS } = config;
+
   const [availabilities, setAvailabilities] = useState<Availabilities>({});
-
   const [selectedDate, setSelectedDate] = useState<Date>();
+  const [dateRange, setDateRange] = useState<DateRange>({
+    fromDate: new Date(),
+    toDate: addDays(new Date(), LOOK_AHEAD_DAYS),
+  });
 
-  const [dateList, setDateList] = useState<Date[]>([]);
+  useEffect(
+    function getAvailabilitiesOnSelectedDate() {
+      if (!selectedDate || availabilities[formatDate(selectedDate)]) {
+        return;
+      }
 
-  const loadMoreAvailabilities = () =>
-    void (async () => {
-      const nextDate = addDays(dateList[dateList.length - 1], 1);
+      getPlaces(selectedDate)
+        .then((places) => {
+          setAvailabilities((availabilities) => ({
+            ...availabilities,
+            [formatDate(selectedDate)]: places,
+          }));
+        })
+        .catch((error) => console.error(error));
+    },
+    [availabilities, selectedDate]
+  );
 
-      const newAvailabilities = await getAvailabilities(nextDate);
+  useEffect(
+    function clampSelectedDateToRange() {
+      if (!selectedDate) {
+        setSelectedDate(dateRange.fromDate);
+        return;
+      }
 
-      setAvailabilities({ ...availabilities, ...newAvailabilities });
+      if (selectedDate < dateRange.fromDate) {
+        setSelectedDate(dateRange.fromDate);
+        return;
+      }
 
-      setDateList([
-        ...dateList,
-        ...Object.keys(newAvailabilities).map((date) => parseDate(date)),
-      ]);
-    })().catch((error) => console.error(error));
+      if (selectedDate > dateRange.toDate) {
+        setSelectedDate(dateRange.toDate);
+        return;
+      }
+    },
+    [dateRange, selectedDate, setSelectedDate]
+  );
 
-  const selectDate = (date: Date) => {
+  const selectedDateChangeHandler = (date: Date) => {
     setSelectedDate(date);
   };
 
-  useEffect(function getAvailabilityOnFrontpageMount() {
-    getAvailabilities()
-      .then((data) => {
-        setAvailabilities({ ...availabilities, ...data });
-        setDateList([
-          ...dateList,
-          ...Object.keys(data).map((date) => parseDate(date)),
-        ]);
-        setSelectedDate(parseDate(Object.keys(data)[0]));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <main style={{ display: "flex", flexFlow: "column", gap: "5px" }}>
-      <h1>Shelter Availability</h1>
+    <main
+      style={{
+        alignItems: "center",
+        display: "flex",
+        flexFlow: "column",
+        gap: "5px",
+      }}
+    >
+      <h1>Shelter Booking</h1>
+
+      <DateRangeSelector
+        dateRange={dateRange}
+        dateRangeChangeHandler={(dateRange) => {
+          setDateRange(dateRange);
+        }}
+      />
 
       <DateList
-        dateList={dateList}
-        loadMore={loadMoreAvailabilities}
-        selectDate={selectDate}
+        dateRange={dateRange}
+        selectedDateChangeHandler={selectedDateChangeHandler}
         selectedDate={selectedDate}
       />
 
@@ -76,26 +101,3 @@ export default function Frontpage() {
     </main>
   );
 }
-
-const getAvailabilities = async (fromDate?: Date): Promise<Availabilities> => {
-  const { LOOK_AHEAD_DAYS } = config;
-
-  const placePromises: Promise<void>[] = [];
-  const availabilities: Availabilities = {};
-
-  const date = fromDate || new Date();
-
-  for (let i = 0; i < LOOK_AHEAD_DAYS; i += 1) {
-    const fetchDate = addDays(date, i);
-
-    placePromises.push(
-      getPlaces(fetchDate).then((data) => {
-        availabilities[formatDate(fetchDate)] = data;
-      })
-    );
-  }
-
-  await Promise.all(placePromises);
-
-  return availabilities;
-};

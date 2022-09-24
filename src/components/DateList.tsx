@@ -1,4 +1,6 @@
+import { DateRange } from "../../index.d";
 import {
+  addDays,
   formatDate,
   formatDisplayDate,
   getDayName,
@@ -6,19 +8,17 @@ import {
 } from "../helpers/dateHelper";
 
 type DateListProps = {
-  dateList?: Date[];
-  loadMore?: () => void;
-  selectDate: (date: Date) => void;
+  dateRange: DateRange;
   selectedDate?: Date;
+  selectedDateChangeHandler: (date: Date) => void;
 };
 
 export const DateList = ({
-  dateList,
-  loadMore,
-  selectDate,
+  dateRange,
   selectedDate,
+  selectedDateChangeHandler,
 }: DateListProps) => {
-  return !dateList ? null : (
+  return (
     <ul
       style={{
         display: "flex",
@@ -27,7 +27,7 @@ export const DateList = ({
         overflowX: "auto",
       }}
     >
-      {dateList.map((date) => (
+      {getDateList(dateRange).map((date) => (
         <li style={{ display: "inline-flex" }} key={formatDate(date)}>
           <div
             style={{
@@ -39,8 +39,8 @@ export const DateList = ({
             <span>{getDayName(date)}</span>
 
             <button
-              onFocus={() => selectDate(date)}
-              onMouseOver={() => selectDate(date)}
+              onFocus={() => selectedDateChangeHandler(date)}
+              onMouseOver={() => selectedDateChangeHandler(date)}
               style={{
                 backgroundColor:
                   date.getTime() === selectedDate?.getTime()
@@ -56,21 +56,18 @@ export const DateList = ({
           </div>
         </li>
       ))}
-
-      {!loadMore ? null : (
-        <li style={{ display: "inline-flex", textAlign: "center" }}>
-          <button
-            type="button"
-            onClick={loadMore}
-            style={{
-              margin: "18px 0 0 5px",
-              width: "25px",
-            }}
-          >
-            {"\u2192"}
-          </button>
-        </li>
-      )}
     </ul>
   );
+};
+
+const getDateList = (dateRange: DateRange) => {
+  const dateList = [];
+
+  let currentDate = dateRange.fromDate;
+  while (currentDate <= dateRange.toDate) {
+    dateList.push(currentDate);
+    currentDate = addDays(currentDate, 1);
+  }
+
+  return dateList;
 };

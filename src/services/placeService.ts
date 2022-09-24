@@ -3,7 +3,7 @@ import { Place, PlaceResponse } from "./../../index.d";
 
 const OPTIONS = {
   headers: {
-    Connection: "keep-alive",
+    connection: "keep-alive",
   },
 };
 

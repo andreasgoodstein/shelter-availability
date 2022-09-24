@@ -2,6 +2,11 @@ export type Availabilities = {
   [key: string]: Place[];
 };
 
+export type DateRange = {
+  fromDate: Date;
+  toDate: Date;
+};
+
 export type Place = {
   Lat?: string;
   Lng?: string;
