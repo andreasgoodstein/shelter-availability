@@ -1,12 +1,12 @@
 import dynamic from "next/dynamic";
 import { Suspense, useEffect, useState } from "react";
 
-import { Availabilities, DateRange } from "../../index.d";
+import { DateRange } from "../../index.d";
 import { DateList } from "../components/DateList";
 import { DateRangeSelector } from "../components/DateRangeSelector";
 import { config } from "../config";
 import { addDays, formatDate } from "../helpers/dateHelper";
-import { getPlaces } from "../services/placeService";
+import { useAvailabilities } from "../hooks/useAvailabilities";
 
 const DynamicMap = dynamic(
   () =>
@@ -19,30 +19,13 @@ const DynamicMap = dynamic(
 export default function Frontpage() {
   const { LOOK_AHEAD_DAYS } = config;
 
-  const [availabilities, setAvailabilities] = useState<Availabilities>({});
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [dateRange, setDateRange] = useState<DateRange>({
     fromDate: new Date(),
     toDate: addDays(new Date(), LOOK_AHEAD_DAYS),
   });
 
-  useEffect(
-    function getAvailabilitiesOnSelectedDate() {
-      if (!selectedDate || availabilities[formatDate(selectedDate)]) {
-        return;
-      }
-
-      getPlaces(selectedDate)
-        .then((places) => {
-          setAvailabilities((availabilities) => ({
-            ...availabilities,
-            [formatDate(selectedDate)]: places,
-          }));
-        })
-        .catch((error) => console.error(error));
-    },
-    [availabilities, selectedDate]
-  );
+  const { availabilities } = useAvailabilities(dateRange, selectedDate);
 
   useEffect(
     function clampSelectedDateToRange() {

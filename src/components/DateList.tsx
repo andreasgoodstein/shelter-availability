@@ -1,8 +1,8 @@
 import { DateRange } from "../../index.d";
 import {
-  addDays,
   formatDate,
   formatDisplayDate,
+  getDateListFromRange,
   getDayName,
   isWeekend,
 } from "../helpers/dateHelper";
@@ -27,7 +27,7 @@ export const DateList = ({
         overflowX: "auto",
       }}
     >
-      {getDateList(dateRange).map((date) => (
+      {getDateListFromRange(dateRange).map((date) => (
         <li style={{ display: "inline-flex" }} key={formatDate(date)}>
           <div
             style={{
@@ -58,16 +58,4 @@ export const DateList = ({
       ))}
     </ul>
   );
-};
-
-const getDateList = (dateRange: DateRange) => {
-  const dateList = [];
-
-  let currentDate = dateRange.fromDate;
-  while (currentDate <= dateRange.toDate) {
-    dateList.push(currentDate);
-    currentDate = addDays(currentDate, 1);
-  }
-
-  return dateList;
 };
