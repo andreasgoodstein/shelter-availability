@@ -24,6 +24,8 @@ export default function Document() {
 
         <link rel="canonical" href="https://shelterbooking.netlify.app" />
 
+        <link rel="preconnect" href="https://tile.openstreetmap.org" />
+
         <style>
           {`
             * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scroll-margin-top: 10px }
