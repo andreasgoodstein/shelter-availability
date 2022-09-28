@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import { Suspense, useEffect, useState } from "react";
 
 import { DateRange } from "../../index.d";
-import { DateList } from "../components/DateList";
 import { DateRangeSelector } from "../components/DateRangeSelector";
 import { config } from "../config";
 import { addDays, formatDate } from "../helpers/dateHelper";
@@ -14,6 +13,12 @@ const DynamicMap = dynamic(
   {
     ssr: false,
   }
+);
+
+const DynamicDateList = dynamic(
+  () =>
+    import("../components/DateList").then((component) => component.DateList),
+  { ssr: false }
 );
 
 export default function Frontpage() {
@@ -69,11 +74,13 @@ export default function Frontpage() {
         }}
       />
 
-      <DateList
-        dateRange={dateRange}
-        selectedDateChangeHandler={selectedDateChangeHandler}
-        selectedDate={selectedDate}
-      />
+      <Suspense fallback={null}>
+        <DynamicDateList
+          dateRange={dateRange}
+          selectedDateChangeHandler={selectedDateChangeHandler}
+          selectedDate={selectedDate}
+        />
+      </Suspense>
 
       <Suspense fallback={null}>
         <DynamicMap
