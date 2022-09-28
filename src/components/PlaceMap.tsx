@@ -132,12 +132,20 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
 
         const popup =
           place.Status === 1
-            ? `<p>${place.FTypeID === 3012 ? "Shelter" : "Lejrplads"}</p><p>${
-                place.Title || ""
-              }</p><p>${place.Desc || ""}</p>`
-            : `<p>${place.FTypeID === 3012 ? "Shelter" : "Lejrplads"}</p><p>${
-                place.Title || ""
-              }</p><p>${
+            ? `<p>${
+                place.FTypeID === 3012
+                  ? "Shelter"
+                  : place.FTypeID === 3031
+                  ? "Lejrplads"
+                  : "Bålhytte"
+              }</p><p>${place.Title || ""}</p><p>${place.Desc || ""}</p>`
+            : `<p>${
+                place.FTypeID === 3012
+                  ? "Shelter"
+                  : place.FTypeID === 3031
+                  ? "Lejrplads"
+                  : "Bålhytte"
+              }</p><p>${place.Title || ""}</p><p>${
                 place.Desc || ""
               }</p><a href="https://book.naturstyrelsen.dk/sted/${
                 place.Uri || ""
