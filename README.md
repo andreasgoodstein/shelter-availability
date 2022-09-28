@@ -19,6 +19,6 @@ Run either via **npm** or **docker compose**
 1. `docker compose up`
 2. Navigate to [http://localhost:3000](http://localhost:3000)
 
-## Caveats
+## Hosting
 
-The project only works with NextJS in dev mode. Still ironing out some issues with the static rendering and the Map component. The data pre-fetching should probably be replaced with a locally running proxy-server, to get around the missing CORS headers on the third party API.
+Currently hosted on Netlify @ [shelterbooking.netlify.app](https://shelterbooking.netlify.app)
