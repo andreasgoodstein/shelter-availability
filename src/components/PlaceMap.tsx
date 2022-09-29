@@ -34,19 +34,19 @@ const INITIAL_ZOOM = 10;
 
 const SHELTER_ICON_GREEN = new Icon({
   iconUrl: "/assets/shelter_green.svg",
-  iconSize: [30, 30],
+  iconSize: [30, 45],
 });
 const SHELTER_ICON_RED = new Icon({
   iconUrl: "/assets/shelter_red.svg",
-  iconSize: [30, 30],
+  iconSize: [30, 45],
 });
 const FIRE_ICON_GREEN = new Icon({
   iconUrl: "/assets/campfire_green.svg",
-  iconSize: [30, 30],
+  iconSize: [30, 45],
 });
 const FIRE_ICON_RED = new Icon({
   iconUrl: "/assets/campfire_red.svg",
-  iconSize: [30, 30],
+  iconSize: [30, 45],
 });
 
 export const PlaceMap = ({ date, places }: PlaceMapProps) => {
@@ -130,32 +130,19 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
 
         const options = { icon };
 
-        const popup =
+        const popup = `<p>${place.FType || ""}</p><p>${
+          place.Title || ""
+        }</p><p>${place.Desc || ""}</p>${
           place.Status === 1
-            ? `<p>${
-                place.FTypeID === 3012
-                  ? "Shelter"
-                  : place.FTypeID === 3031
-                  ? "Lejrplads"
-                  : "Bålhytte"
-              }</p><p>${place.Title || ""}</p><p>${
-                place.Desc || ""
-              }</p><a href="https://book.naturstyrelsen.dk/sted/${
+            ? `<a href="https://book.naturstyrelsen.dk/sted/${
                 place.Uri || ""
               }/" target="_blank" rel="noopener noreferrer">Læs om</a>`
-            : `<p>${
-                place.FTypeID === 3012
-                  ? "Shelter"
-                  : place.FTypeID === 3031
-                  ? "Lejrplads"
-                  : "Bålhytte"
-              }</p><p>${place.Title || ""}</p><p>${
-                place.Desc || ""
-              }</p><a href="https://book.naturstyrelsen.dk/sted/${
+            : `<a href="https://book.naturstyrelsen.dk/sted/${
                 place.Uri || ""
               }/?s2=${
                 date ? formatDate(date) : ""
-              }" target="_blank" rel="noopener noreferrer">Book</a>`;
+              }" target="_blank" rel="noopener noreferrer">Book</a>`
+        }`;
 
         new Marker(latLng, options).bindPopup(popup).addTo(markerLayer);
       });

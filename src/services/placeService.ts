@@ -35,7 +35,6 @@ const parseResponseData = async (response: Response) => {
 const trimPlace = (place: Place) => {
   delete place.Distance;
   delete place.Images;
-  delete place.FType;
 
   return place;
 };
