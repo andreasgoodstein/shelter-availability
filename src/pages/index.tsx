@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import { Suspense, useEffect, useState } from "react";
 
 import { DateRange } from "../../index.d";
@@ -57,37 +58,45 @@ export default function Frontpage() {
   };
 
   return (
-    <main
-      style={{
-        alignItems: "center",
-        display: "flex",
-        flexFlow: "column",
-        gap: "5px",
-      }}
-    >
-      <h1>Shelter Booking</h1>
+    <>
+      <Head>
+        <title>Shelter Booking</title>
+      </Head>
 
-      <DateRangeSelector
-        dateRange={dateRange}
-        dateRangeChangeHandler={(dateRange) => {
-          setDateRange(dateRange);
+      <main
+        style={{
+          alignItems: "center",
+          display: "flex",
+          flexFlow: "column",
+          gap: "5px",
         }}
-      />
+      >
+        <h1>Shelter Booking</h1>
 
-      <Suspense fallback={null}>
-        <DynamicDateList
+        <DateRangeSelector
           dateRange={dateRange}
-          selectedDateChangeHandler={selectedDateChangeHandler}
-          selectedDate={selectedDate}
+          dateRangeChangeHandler={(dateRange) => {
+            setDateRange(dateRange);
+          }}
         />
-      </Suspense>
 
-      <Suspense fallback={null}>
-        <DynamicMap
-          date={selectedDate}
-          places={selectedDate ? availabilities[formatDate(selectedDate)] : []}
-        />
-      </Suspense>
-    </main>
+        <Suspense fallback={null}>
+          <DynamicDateList
+            dateRange={dateRange}
+            selectedDateChangeHandler={selectedDateChangeHandler}
+            selectedDate={selectedDate}
+          />
+        </Suspense>
+
+        <Suspense fallback={null}>
+          <DynamicMap
+            date={selectedDate}
+            places={
+              selectedDate ? availabilities[formatDate(selectedDate)] : []
+            }
+          />
+        </Suspense>
+      </main>
+    </>
   );
 }

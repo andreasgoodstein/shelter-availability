@@ -11,7 +11,7 @@ const URL = `${globalThis?.location?.origin}/api?s2=&s3=&ps=24&t=1`;
 
 export const getPlaces = async (date: Date): Promise<Place[]> => {
   const response = await fetch(getUrl(date), OPTIONS);
-  const data = (await response.json()) as PlaceResponse;
+  const data = await parseResponseData(response);
 
   return [
     ...(data?.BookingPlacesList?.map(trimPlace) || []),
@@ -21,6 +21,16 @@ export const getPlaces = async (date: Date): Promise<Place[]> => {
 
 const getUrl = (date: Date) =>
   URL.replace("s2=", `s2=${formatDate(date)}`).replace("s3=", "s3=1");
+
+const parseResponseData = async (response: Response) => {
+  const buffer = await response.arrayBuffer();
+
+  const decoder = new TextDecoder("iso-8859-1");
+
+  const text = decoder.decode(buffer);
+
+  return JSON.parse(text) as PlaceResponse;
+};
 
 const trimPlace = (place: Place) => {
   delete place.Distance;

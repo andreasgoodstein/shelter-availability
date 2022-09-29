@@ -18,8 +18,6 @@ export default function Document() {
 
         <meta name="robots" content="index, follow" />
 
-        <title>Shelter Booking</title>
-
         <link rel="icon" href="/assets/shelter.svg" />
 
         <link rel="canonical" href="https://shelterbooking.netlify.app" />
