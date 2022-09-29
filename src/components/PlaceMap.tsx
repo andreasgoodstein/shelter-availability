@@ -142,7 +142,7 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
                 place.Desc || ""
               }</p><a href="https://book.naturstyrelsen.dk/sted/${
                 place.Uri || ""
-              }" target="_blank" rel="noopener noreferrer">Læs om</a>`
+              }/" target="_blank" rel="noopener noreferrer">Læs om</a>`
             : `<p>${
                 place.FTypeID === 3012
                   ? "Shelter"
