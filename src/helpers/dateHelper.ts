@@ -8,7 +8,7 @@ export const formatDate = (date: Date) => format(date, "yyyyMMdd");
 
 export const formatInputDate = (date: Date) => format(date, "yyyy-MM-dd");
 
-export const formatDisplayDate = (date: Date) => format(date, "dd.MM");
+export const formatDisplayDate = (date: Date) => format(date, "dd/MM");
 
 export const getDateListFromRange = (dateRange: DateRange) => {
   const dateList = [];

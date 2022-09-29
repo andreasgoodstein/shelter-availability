@@ -29,31 +29,27 @@ export const DateList = ({
     >
       {getDateListFromRange(dateRange).map((date) => (
         <li style={{ display: "inline-flex" }} key={formatDate(date)}>
-          <div
+          <button
+            onFocus={() => selectedDateChangeHandler(date)}
+            onMouseOver={() => selectedDateChangeHandler(date)}
             style={{
-              alignItems: "center",
+              backgroundColor:
+                date.getTime() === selectedDate?.getTime()
+                  ? "grey"
+                  : isWeekend(date)
+                  ? "lightgrey"
+                  : "transparent",
+              border: "1px solid grey",
+              borderRadius: "8px",
               display: "flex",
               flexFlow: "column",
+              padding: "3px",
             }}
+            type="button"
           >
             <span>{getDayName(date)}</span>
-
-            <button
-              onFocus={() => selectedDateChangeHandler(date)}
-              onMouseOver={() => selectedDateChangeHandler(date)}
-              style={{
-                backgroundColor:
-                  date.getTime() === selectedDate?.getTime()
-                    ? "grey"
-                    : isWeekend(date)
-                    ? "lightgrey"
-                    : "transparent",
-              }}
-              type="button"
-            >
-              {formatDisplayDate(date)}
-            </button>
-          </div>
+            <span>{formatDisplayDate(date)}</span>
+          </button>
         </li>
       ))}
     </ul>
