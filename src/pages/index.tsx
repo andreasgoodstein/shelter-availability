@@ -68,25 +68,36 @@ export default function Frontpage() {
           alignItems: "center",
           display: "flex",
           flexFlow: "column",
-          gap: "5px",
+          height: "100vh",
+          justifyContent: "space-between",
         }}
       >
-        <h1>Shelter Booking</h1>
-
-        <DateRangeSelector
-          dateRange={dateRange}
-          dateRangeChangeHandler={(dateRange) => {
-            setDateRange(dateRange);
+        <div
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexFlow: "column",
+            gap: "5px",
+            width: "100%",
           }}
-        />
+        >
+          <h1>Shelter Booking</h1>
 
-        <Suspense fallback={null}>
-          <DynamicDateList
+          <DateRangeSelector
             dateRange={dateRange}
-            selectedDateChangeHandler={selectedDateChangeHandler}
-            selectedDate={selectedDate}
+            dateRangeChangeHandler={(dateRange) => {
+              setDateRange(dateRange);
+            }}
           />
-        </Suspense>
+
+          <Suspense fallback={null}>
+            <DynamicDateList
+              dateRange={dateRange}
+              selectedDateChangeHandler={selectedDateChangeHandler}
+              selectedDate={selectedDate}
+            />
+          </Suspense>
+        </div>
 
         <Suspense fallback={null}>
           <DynamicMap

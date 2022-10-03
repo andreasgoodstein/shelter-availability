@@ -153,7 +153,7 @@ export const PlaceMap = ({ date, places }: PlaceMapProps) => {
   return (
     <div
       ref={leafRef}
-      style={{ height: "calc(100vh - 115px)", width: "100%" }}
+      style={{ height: "calc(100vh - 120px)", width: "100%" }}
     ></div>
   );
 };

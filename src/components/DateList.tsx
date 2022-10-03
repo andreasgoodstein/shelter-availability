@@ -25,8 +25,8 @@ export const DateList = ({
         flexFlow: "row",
         gap: "2px",
         maxWidth: "100%",
-        overflowX: "scroll",
-        paddingBottom: "5px",
+        overflowX: "auto",
+        paddingBottom: "7px",
       }}
     >
       {getDateListFromRange(dateRange).map((date) => (
