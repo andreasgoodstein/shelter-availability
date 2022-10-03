@@ -1,9 +1,16 @@
 import { Head, Html, Main, NextScript } from "next/document";
 
+const cspContent =
+  process.env.NODE_ENV === "production"
+    ? "default-src 'self' 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org;"
+    : "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' 'unsafe-eval' data: https://tile.openstreetmap.org";
+
 export default function Document() {
   return (
     <Html lang="da">
       <Head>
+        <meta httpEquiv="Content-Security-Policy" content={cspContent} />
+
         <meta
           name="description"
           content="Få et bedre overblik over hvornår Naturstyrelsens sheltere og lejrpladser er ledige. Gør det nemmere at opleve naturen i Danmark."
