@@ -7,6 +7,7 @@ import { DateRangeSelector } from "../components/DateRangeSelector";
 import { config } from "../config";
 import { addDays, formatDate } from "../helpers/dateHelper";
 import { useAvailabilities } from "../hooks/useAvailabilities";
+import { useSentry } from "../hooks/useSentry";
 
 const DynamicMap = dynamic(
   () =>
@@ -25,6 +26,7 @@ const DynamicDateList = dynamic(
 export default function Frontpage() {
   const { LOOK_AHEAD_DAYS } = config;
 
+  useSentry();
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [dateRange, setDateRange] = useState<DateRange>({
     fromDate: new Date(),

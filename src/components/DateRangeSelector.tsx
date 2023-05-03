@@ -10,15 +10,15 @@ type DateRangeSelectorProps = {
   dateRange: DateRange;
 };
 
-const MAX_FROM_DATE = addDays(new Date(), 89);
-const MAX_TO_DATE = addDays(new Date(), 90);
-const MIN_FROM_DATE = new Date();
-const MIN_TO_DATE = addDays(new Date(), 1);
-
 export const DateRangeSelector = ({
   dateRangeChangeHandler,
   dateRange,
 }: DateRangeSelectorProps) => {
+  const maxFromDate = addDays(new Date(), 89);
+  const maxToDate = addDays(new Date(), 90);
+  const minFromDate = new Date();
+  const minToDate = addDays(new Date(), 1);
+
   return (
     <div
       style={{
@@ -30,8 +30,8 @@ export const DateRangeSelector = ({
       }}
     >
       <input
-        max={formatInputDate(MAX_FROM_DATE)}
-        min={formatInputDate(MIN_FROM_DATE)}
+        max={formatInputDate(maxFromDate)}
+        min={formatInputDate(minFromDate)}
         onChange={(event) => {
           if (event?.target?.value?.length !== 10) {
             return;
@@ -41,11 +41,11 @@ export const DateRangeSelector = ({
 
           dateRangeChangeHandler({
             fromDate:
-              fromDate > MIN_FROM_DATE
-                ? fromDate < MAX_FROM_DATE
+              fromDate > minFromDate
+                ? fromDate < maxFromDate
                   ? fromDate
-                  : MAX_FROM_DATE
-                : MIN_FROM_DATE,
+                  : maxFromDate
+                : minFromDate,
             toDate: dateRange.toDate,
           });
         }}
@@ -56,8 +56,8 @@ export const DateRangeSelector = ({
       <span>{"\u2192"}</span>
 
       <input
-        max={formatInputDate(MAX_TO_DATE)}
-        min={formatInputDate(MIN_TO_DATE)}
+        max={formatInputDate(maxToDate)}
+        min={formatInputDate(minToDate)}
         onChange={(event) => {
           if (event?.target?.value?.length !== 10) {
             return;
@@ -68,11 +68,11 @@ export const DateRangeSelector = ({
           dateRangeChangeHandler({
             fromDate: dateRange.fromDate,
             toDate:
-              toDate > MIN_TO_DATE
-                ? toDate < MAX_TO_DATE
+              toDate > minToDate
+                ? toDate < maxToDate
                   ? toDate
-                  : MAX_TO_DATE
-                : MIN_TO_DATE,
+                  : maxToDate
+                : minToDate,
           });
         }}
         type="date"
