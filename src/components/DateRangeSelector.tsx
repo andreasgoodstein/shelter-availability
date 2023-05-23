@@ -41,12 +41,17 @@ export const DateRangeSelector = ({
 
           dateRangeChangeHandler({
             fromDate:
-              fromDate > minFromDate
+              minFromDate < fromDate
                 ? fromDate < maxFromDate
                   ? fromDate
                   : maxFromDate
                 : minFromDate,
-            toDate: dateRange.toDate,
+            toDate:
+              fromDate < dateRange.toDate
+                ? dateRange.toDate
+                : fromDate < maxFromDate
+                ? addDays(fromDate, 1)
+                : maxToDate,
           });
         }}
         type="date"
@@ -66,9 +71,14 @@ export const DateRangeSelector = ({
           const toDate = parseInputDate(event.target.value);
 
           dateRangeChangeHandler({
-            fromDate: dateRange.fromDate,
+            fromDate:
+              dateRange.fromDate < toDate
+                ? dateRange.fromDate
+                : minFromDate < dateRange.fromDate
+                ? dateRange.fromDate
+                : minFromDate,
             toDate:
-              toDate > minToDate
+              minToDate < toDate
                 ? toDate < maxToDate
                   ? toDate
                   : maxToDate
