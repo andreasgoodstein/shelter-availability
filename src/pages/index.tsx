@@ -9,6 +9,8 @@ import { addDays, formatDate } from "../helpers/dateHelper";
 import { useAvailabilities } from "../hooks/useAvailabilities";
 import { useSentry } from "../hooks/useSentry";
 
+const { LOOK_AHEAD_DAYS } = config;
+
 const DynamicMap = dynamic(
   () =>
     import("../components/PlaceMap").then((component) => component.PlaceMap),
@@ -24,9 +26,8 @@ const DynamicDateList = dynamic(
 );
 
 export default function Frontpage() {
-  const { LOOK_AHEAD_DAYS } = config;
-
   useSentry();
+
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [dateRange, setDateRange] = useState<DateRange>({
     fromDate: new Date(),
@@ -87,9 +88,7 @@ export default function Frontpage() {
 
           <DateRangeSelector
             dateRange={dateRange}
-            dateRangeChangeHandler={(dateRange) => {
-              setDateRange(dateRange);
-            }}
+            dateRangeChangeHandler={setDateRange}
           />
 
           <Suspense fallback={null}>

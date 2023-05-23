@@ -17,7 +17,7 @@ export const DateRangeSelector = ({
   const maxFromDate = addDays(new Date(), 89);
   const maxToDate = addDays(new Date(), 90);
   const minFromDate = new Date();
-  const minToDate = addDays(new Date(), 1);
+  const minToDate = addDays(dateRange.fromDate, 1);
 
   return (
     <div
