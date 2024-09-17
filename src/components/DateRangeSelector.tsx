@@ -14,10 +14,11 @@ export const DateRangeSelector = ({
   dateRangeChangeHandler,
   dateRange,
 }: DateRangeSelectorProps) => {
-  const maxFromDate = addDays(new Date(), 89);
-  const maxToDate = addDays(new Date(), 90);
-  const minFromDate = new Date();
+  const currentDate = new Date();
+  const minFromDate = currentDate;
+  const maxFromDate = addDays(currentDate, 89);
   const minToDate = addDays(dateRange.fromDate, 1);
+  const maxToDate = addDays(currentDate, 90);
 
   return (
     <div

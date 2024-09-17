@@ -1,14 +1,18 @@
 import { add, format, parse } from "date-fns";
+import { da } from "date-fns/locale";
 
 import { DateRange } from "../../index.d";
 
 export const addDays = (date: Date, days: number) => add(date, { days });
 
-export const formatDate = (date: Date) => format(date, "yyyyMMdd");
+export const formatDate = (date: Date) =>
+  format(date, "yyyyMMdd", { locale: da });
 
-export const formatInputDate = (date: Date) => format(date, "yyyy-MM-dd");
+export const formatInputDate = (date: Date) =>
+  format(date, "yyyy-MM-dd", { locale: da });
 
-export const formatDisplayDate = (date: Date) => format(date, "dd/MM");
+export const formatDisplayDate = (date: Date) =>
+  format(date, "dd/MM", { locale: da });
 
 export const getDateListFromRange = (dateRange: DateRange) => {
   const dateList = [];
@@ -22,12 +26,12 @@ export const getDateListFromRange = (dateRange: DateRange) => {
   return dateList;
 };
 
-export const getDayName = (date: Date) => format(date, "iii");
+export const getDayName = (date: Date) => format(date, "iii", { locale: da });
 
 export const isWeekend = (date: Date) => [6, 0].includes(date.getDay());
 
 export const parseDate = (dateString: string) =>
-  parse(dateString, "yyyyMMdd", new Date());
+  parse(dateString, "yyyyMMdd", new Date(), { locale: da });
 
 export const parseInputDate = (dateString: string) =>
-  parse(dateString, "yyyy-MM-dd", new Date());
+  parse(dateString, "yyyy-MM-dd", new Date(), { locale: da });

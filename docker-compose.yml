@@ -1,7 +1,6 @@
-version: "3"
 services:
   shelter:
-    image: node:18
+    image: node:20
     working_dir: /app
     volumes:
       - ./:/app
@@ -12,4 +11,4 @@ services:
       - /app/out
     ports:
       - 3000:3000
-    command: [sh, -c, "npm ci && npm start"]
+    command: [sh, -c, "npm ci && npm run build && npm run serve"]

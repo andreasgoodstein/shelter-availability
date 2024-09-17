@@ -10,7 +10,8 @@ const OPTIONS = {
 const URL = `${globalThis?.location?.origin}/api?s2=&s3=&ps=24&t=1`;
 
 export const getPlaces = async (date: Date): Promise<Place[]> => {
-  const response = await fetch(getUrl(date), OPTIONS);
+  const url = getUrl(date);
+  const response = await fetch(url, OPTIONS);
   const data = await parseResponseData(response);
 
   return [

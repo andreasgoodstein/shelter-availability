@@ -4,12 +4,10 @@ import { Suspense, useEffect, useState } from "react";
 
 import { DateRange } from "../../index.d";
 import { DateRangeSelector } from "../components/DateRangeSelector";
-import { config } from "../config";
 import { addDays, formatDate } from "../helpers/dateHelper";
 import { useAvailabilities } from "../hooks/useAvailabilities";
 import { useSentry } from "../hooks/useSentry";
-
-const { LOOK_AHEAD_DAYS } = config;
+import { useDateSelection } from "../hooks/useDateSelection";
 
 const DynamicMap = dynamic(
   () =>
@@ -25,40 +23,13 @@ const DynamicDateList = dynamic(
   { ssr: false }
 );
 
-export default function Frontpage() {
+export default function FrontPage() {
   useSentry();
 
-  const [selectedDate, setSelectedDate] = useState<Date>();
-  const [dateRange, setDateRange] = useState<DateRange>({
-    fromDate: new Date(),
-    toDate: addDays(new Date(), LOOK_AHEAD_DAYS),
-  });
+  const { dateRange, selectedDate, setDateRange, setSelectedDate } =
+    useDateSelection();
 
   const { availabilities } = useAvailabilities(dateRange, selectedDate);
-
-  useEffect(
-    function clampSelectedDateToRange() {
-      if (!selectedDate) {
-        setSelectedDate(dateRange.fromDate);
-        return;
-      }
-
-      if (selectedDate < dateRange.fromDate) {
-        setSelectedDate(dateRange.fromDate);
-        return;
-      }
-
-      if (selectedDate > dateRange.toDate) {
-        setSelectedDate(dateRange.toDate);
-        return;
-      }
-    },
-    [dateRange, selectedDate, setSelectedDate]
-  );
-
-  const selectedDateChangeHandler = (date: Date) => {
-    setSelectedDate(date);
-  };
 
   return (
     <>
@@ -94,7 +65,7 @@ export default function Frontpage() {
           <Suspense fallback={null}>
             <DynamicDateList
               dateRange={dateRange}
-              selectedDateChangeHandler={selectedDateChangeHandler}
+              selectedDateChangeHandler={setSelectedDate}
               selectedDate={selectedDate}
             />
           </Suspense>
