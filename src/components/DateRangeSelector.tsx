@@ -6,15 +6,16 @@ import {
 } from "../helpers/dateHelper";
 
 type DateRangeSelectorProps = {
+  currentDate: Date;
   dateRangeChangeHandler: (arg: DateRange) => void;
   dateRange: DateRange;
 };
 
 export const DateRangeSelector = ({
+  currentDate,
   dateRangeChangeHandler,
   dateRange,
 }: DateRangeSelectorProps) => {
-  const currentDate = new Date();
   const minFromDate = currentDate;
   const maxFromDate = addDays(currentDate, 89);
   const minToDate = addDays(dateRange.fromDate, 1);

@@ -2,8 +2,8 @@ import { Head, Html, Main, NextScript } from "next/document";
 
 const cspContent =
   process.env.NODE_ENV === "production"
-    ? "default-src 'self' 'unsafe-inline'; img-src 'self' data: tile.openstreetmap.org; connect-src 'self' *.sentry.io"
-    : "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' 'unsafe-eval' data: tile.openstreetmap.org; connect-src 'self' *.sentry.io";
+    ? "default-src 'self' 'unsafe-inline'; img-src 'self' data: tile.openstreetmap.org; connect-src 'self'"
+    : "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' 'unsafe-eval' data: tile.openstreetmap.org; connect-src 'self'";
 
 export default function Document() {
   return (

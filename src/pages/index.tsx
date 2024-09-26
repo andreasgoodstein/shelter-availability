@@ -1,21 +1,10 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 
-import { DateRange } from "../../index.d";
-import { DateRangeSelector } from "../components/DateRangeSelector";
-import { addDays, formatDate } from "../helpers/dateHelper";
+import { formatDate } from "../helpers/dateHelper";
 import { useAvailabilities } from "../hooks/useAvailabilities";
-import { useSentry } from "../hooks/useSentry";
 import { useDateSelection } from "../hooks/useDateSelection";
-
-const DynamicMap = dynamic(
-  () =>
-    import("../components/PlaceMap").then((component) => component.PlaceMap),
-  {
-    ssr: false,
-  }
-);
 
 const DynamicDateList = dynamic(
   () =>
@@ -23,9 +12,23 @@ const DynamicDateList = dynamic(
   { ssr: false }
 );
 
-export default function FrontPage() {
-  useSentry();
+const DynamicDateRangeSelector = dynamic(
+  () =>
+    import("../components/DateRangeSelector").then(
+      (component) => component.DateRangeSelector
+    ),
+  { ssr: false }
+);
 
+const DynamicMap = dynamic(
+  () =>
+    import("../components/PlaceMap").then((component) => component.PlaceMap),
+  { ssr: false }
+);
+
+const Fallback = () => <p>Indlæser...</p>;
+
+export default function FrontPage() {
   const { dateRange, selectedDate, setDateRange, setSelectedDate } =
     useDateSelection();
 
@@ -57,10 +60,13 @@ export default function FrontPage() {
         >
           <h1>Shelter Booking</h1>
 
-          <DateRangeSelector
-            dateRange={dateRange}
-            dateRangeChangeHandler={setDateRange}
-          />
+          <Suspense fallback={<Fallback />}>
+            <DynamicDateRangeSelector
+              currentDate={new Date()}
+              dateRange={dateRange}
+              dateRangeChangeHandler={setDateRange}
+            />
+          </Suspense>
 
           <Suspense fallback={null}>
             <DynamicDateList

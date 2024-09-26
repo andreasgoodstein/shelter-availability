@@ -17,7 +17,6 @@
   "author": "Andreas Goodstein",
   "license": "GPL",
   "dependencies": {
-    "@sentry/react": "7.50.0",
     "date-fns": "4.1.0",
     "leaflet": "1.9.3",
     "react": "18.2.0",

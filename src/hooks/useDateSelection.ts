@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+
 import { DateRange } from "../../index.d";
-import { addDays } from "../helpers/dateHelper";
 import { config } from "../config";
+import { addDays } from "../helpers/dateHelper";
 
 const { LOOK_AHEAD_DAYS } = config;
 
