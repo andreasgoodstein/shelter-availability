@@ -7,7 +7,7 @@ const OPTIONS = {
   },
 };
 
-const URL = `${globalThis?.location?.origin}/api?s2=&s3=&ps=24&t=1`;
+const URL = `${globalThis?.location?.origin}/api?s2=&s3=1&p=1&ps=24&t=1`;
 
 export const getPlaces = async (date: Date): Promise<Place[]> => {
   const url = getUrl(date);
@@ -20,8 +20,7 @@ export const getPlaces = async (date: Date): Promise<Place[]> => {
   ];
 };
 
-const getUrl = (date: Date) =>
-  URL.replace("s2=", `s2=${formatDate(date)}`).replace("s3=", "s3=1");
+const getUrl = (date: Date) => URL.replace("s2=", `s2=${formatDate(date)}`);
 
 const parseResponseData = async (response: Response) => {
   const buffer = await response.arrayBuffer();

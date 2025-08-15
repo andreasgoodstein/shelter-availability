@@ -9,7 +9,7 @@ const nextConfig = {
   rewrites: () => [
     {
       destination:
-        "https://book.naturstyrelsen.dk/includes/branding_files/naturstyrelsen/includes/inc_ajaxbookingplaces.asp",
+        "https://book.naturstyrelsen.dk/includes/branding_files/shelterbooking/includes/inc_ajaxbookingplaces.asp",
       source: "/api",
     },
   ],

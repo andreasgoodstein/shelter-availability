@@ -6,7 +6,7 @@ import { DateRange } from "../../index.d";
 export const addDays = (date: Date, days: number) => add(date, { days });
 
 export const formatDate = (date: Date) =>
-  format(date, "yyyyMMdd", { locale: da });
+  format(date, "dd/MM/yyyy", { locale: da });
 
 export const formatInputDate = (date: Date) =>
   format(date, "yyyy-MM-dd", { locale: da });
